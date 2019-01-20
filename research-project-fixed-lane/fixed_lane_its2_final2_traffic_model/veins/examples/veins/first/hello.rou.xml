@@ -1,0 +1,27 @@
+<routes>
+    <vType tau="0" accel="1.0" decel="5.0" id="Car" length="2.0" maxSpeed="10.0" sigma="0.0" minGap="-1" />
+    <vType tau="0" accel="5.0" decel="10.0" id="Car1" length="2.0" maxSpeed="180.0" sigma="0.0" minGap="-1" icSpeedGain="0.1"/>
+    <route id="route0" edges="1to2"/>
+    
+    <vehicle depart="1" departLane="0" arrivalLane="0" id="veh0" route="route0" type="Car" />
+    <vehicle depart="2" departLane="0" arrivalLane="0" id="veh1" route="route0" type="Car" />
+    <vehicle depart="3" departLane="0" arrivalLane="0" id="veh2" route="route0" type="Car" />
+    
+    <vehicle depart="6" departLane="1" arrivalLane="1" id="veh3" route="route0" type="Car" />
+    <vehicle depart="7" departLane="1" arrivalLane="1" id="veh4" route="route0" type="Car" />
+    <vehicle depart="8" departLane="1" arrivalLane="1" id="veh5" route="route0" type="Car" />
+    
+    <vehicle depart="11" departLane="0" arrivalLane="0" id="veh6" route="route0" type="Car" />
+    <vehicle depart="12" departLane="0" arrivalLane="0" id="veh7" route="route0" type="Car" />
+    <vehicle depart="13" departLane="0" arrivalLane="0" id="veh8" route="route0" type="Car" />
+    
+    <vehicle depart="16" departLane="1" arrivalLane="1" id="veh9" route="route0" type="Car" />
+    <vehicle depart="17" departLane="1" arrivalLane="1" id="veh10" route="route0" type="Car" />
+    <vehicle depart="18" departLane="1" arrivalLane="1" id="veh11" route="route0" type="Car" />
+
+
+    
+    <vehicle color="red" depart="20" departLane="1" arrivalLane="1" id="vip" route="route0" type="Car1" />
+
+</routes>
+    

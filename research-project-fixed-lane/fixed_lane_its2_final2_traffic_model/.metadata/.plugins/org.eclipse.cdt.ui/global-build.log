@@ -1,0 +1,672 @@
+10:35:29 **** Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+10:36:30 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+10:50:09 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+10:50:43 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:10:25 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:15:09 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:22:25 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:23:04 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:27:17 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:33:13 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:33:40 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:33:55 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:36:16 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:36:50 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:39:01 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:42:42 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/mac/ieee80211p/Mac1609_4.cc
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:46:26 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:49:12 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/base/phyLayer/BasePhyLayer.cc
+veins/base/phyLayer/BasePhyLayer.cc: In member function ‘virtual void BasePhyLayer::handleAirFrameStartReceive(Veins::AirFrame*)’:
+veins/base/phyLayer/BasePhyLayer.cc:385:10: warning: unused variable ‘s’ [-Wunused-variable]
+  Signal& s = frame->getSignal();
+          ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:50:31 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:52:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:53:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+12:58:21 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:00:57 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:09:49 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+veins/modules/application/traci/TraCIDemo11p.cc: In member function ‘virtual double TraCIDemo11p::getSpeed()’:
+veins/modules/application/traci/TraCIDemo11p.cc:97:16: warning: unused variable ‘speed’ [-Wunused-variable]
+         double speed = givingPrioritySpeed;
+                ^
+veins/modules/application/traci/TraCIDemo11p.cc:99:16: warning: unused variable ‘speed’ [-Wunused-variable]
+         double speed = preffered_speed;
+                ^
+veins/modules/application/traci/TraCIDemo11p.cc:103:8: error: ‘speed’ was not declared in this scope
+     if(speed > max_speed_lane[stoi(traciVehicle->getLaneId())]){
+        ^
+veins/modules/application/traci/TraCIDemo11p.cc:107:27: error: ‘speed’ was not declared in this scope
+     if(two_second_speed < speed){
+                           ^
+veins/modules/application/traci/TraCIDemo11p.cc:113:12: error: ‘speed’ was not declared in this scope
+     return speed;
+            ^
+veins/modules/application/traci/TraCIDemo11p.cc: In member function ‘virtual void TraCIDemo11p::handleSelfMsg(omnetpp::cMessage*)’:
+veins/modules/application/traci/TraCIDemo11p.cc:314:9: error: ‘givgivingPriority’ was not declared in this scope
+         givgivingPriority = false;
+         ^
+veins/modules/application/traci/TraCIDemo11p.cc: In member function ‘virtual double TraCIDemo11p::getSpeed()’:
+veins/modules/application/traci/TraCIDemo11p.cc:115:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+make[1]: *** [../out/gcc-debug/src/veins/modules/application/traci/TraCIDemo11p.o] Error 1
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make: *** [all] Error 2
+13:10:13 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+veins/modules/application/traci/TraCIDemo11p.cc: In member function ‘virtual double TraCIDemo11p::getSpeed()’:
+veins/modules/application/traci/TraCIDemo11p.cc:97:16: warning: unused variable ‘speed’ [-Wunused-variable]
+         double speed = givingPrioritySpeed;
+                ^
+veins/modules/application/traci/TraCIDemo11p.cc:99:16: warning: unused variable ‘speed’ [-Wunused-variable]
+         double speed = preffered_speed;
+                ^
+veins/modules/application/traci/TraCIDemo11p.cc:103:8: error: ‘speed’ was not declared in this scope
+     if(speed > max_speed_lane[stoi(traciVehicle->getLaneId())]){
+        ^
+veins/modules/application/traci/TraCIDemo11p.cc:107:27: error: ‘speed’ was not declared in this scope
+     if(two_second_speed < speed){
+                           ^
+veins/modules/application/traci/TraCIDemo11p.cc:113:12: error: ‘speed’ was not declared in this scope
+     return speed;
+            ^
+veins/modules/application/traci/TraCIDemo11p.cc:115:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+make[1]: *** [../out/gcc-debug/src/veins/modules/application/traci/TraCIDemo11p.o] Error 1
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make: *** [all] Error 2
+13:11:10 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+veins/modules/application/traci/TraCIDemo11p.cc: In member function ‘virtual double TraCIDemo11p::getSpeed()’:
+veins/modules/application/traci/TraCIDemo11p.cc:99:16: warning: unused variable ‘speed’ [-Wunused-variable]
+         double speed = givingPrioritySpeed;
+                ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:11:18 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:11:33 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:13:24 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:16:26 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:20:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:24:24 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:30:51 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:43:07 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+13:59:52 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:00:00 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:12:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:21:31 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:27:12 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:30:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:33:24 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:34:24 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:34:57 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:39:22 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:41:20 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:44:54 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:50:47 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+14:56:02 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:00:36 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:05:31 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:09:01 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:12:27 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:16:56 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:17:02 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:17:58 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+15:29:06 **** Incremental Build of configuration gcc-debug for project veins ****
+make MODE=debug CONFIGNAME=gcc-debug all 
+make[1]: Entering directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'
+veins/modules/application/traci/TraCIDemo11p.cc
+In file included from ./veins/modules/mobility/traci/TraCIMobility.h:34:0,
+                 from ./veins/modules/application/traci/TraCIDemo11p.h:25,
+                 from veins/modules/application/traci/TraCIDemo11p.cc:21:
+./veins/modules/mobility/traci/TraCICommandInterface.h: In constructor ‘Veins::TraCICommandInterface::Vehicle::Vehicle(Veins::TraCICommandInterface*, std::string)’:
+./veins/modules/mobility/traci/TraCICommandInterface.h:73:28: warning: ‘Veins::TraCICommandInterface::Vehicle::traci’ will be initialized after [-Wreorder]
+     TraCICommandInterface* traci;
+                            ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:70:17: warning:   ‘std::string Veins::TraCICommandInterface::Vehicle::nodeId’ [-Wreorder]
+     std::string nodeId;
+                 ^
+./veins/modules/mobility/traci/TraCICommandInterface.h:36:5: warning:   when initialized here [-Wreorder]
+     Vehicle(TraCICommandInterface* traci, std::string nodeId) : traci(traci), nodeId(nodeId) {
+     ^
+Creating shared library: ../out/gcc-debug/src/libveins.so
+make[1]: Leaving directory `/home/fyp-its/Insaf/its2-0_insaf/fixed_lane_its2_final2_traffic_model/veins/src'

@@ -1,0 +1,4 @@
+<edge id="1to2" from="1" to="2" priority="1">
+        <lane id="0" index="0" speed="30" length="2000.00" shape="0.00,-4.95 10000.00,-4.95"/>
+        <lane id="1" index="1" speed="30" length="2000.00" shape="0.00,-1.65 10000.00,-1.65"/>
+    </edge>

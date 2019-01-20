@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/veins/examples/veins/results/nodebug-*.vec"/>
+    <inputs name="/veins/examples/veins/results/nodebug-*.sca"/>
+  </inputs>
+  <datasets>
+    <datasets name="packet loss">
+      <items xsi:type="scave:Add" filterPattern="module(*.mac1609_4) AND name(SentPackets)"/>
+      <items xsi:type="scave:LineChart" name="" lineNameFormat=""/>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+  </chartSheets>
+</scave:Analysis>

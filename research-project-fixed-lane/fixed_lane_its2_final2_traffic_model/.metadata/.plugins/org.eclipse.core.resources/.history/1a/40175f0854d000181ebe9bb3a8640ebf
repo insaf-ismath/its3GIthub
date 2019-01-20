@@ -1,0 +1,375 @@
+//
+// Copyright (C) 2006-2011 Christoph Sommer <christoph.sommer@uibk.ac.at>
+//
+// Documentation for these modules is at http://veins.car2x.org/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+
+#include "veins/modules/application/traci/TraCIDemo11p.h"
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <random>
+
+using namespace std;
+
+using Veins::TraCIMobilityAccess;
+using Veins::AnnotationManagerAccess;
+
+const simsignalwrap_t TraCIDemo11p::parkingStateChangedSignal = simsignalwrap_t(TRACI_SIGNAL_PARKING_CHANGE_NAME);
+
+Define_Module(TraCIDemo11p);
+
+void TraCIDemo11p::finish()
+{
+    recordScalar("end_to_end_delay", avg_delay);
+    recordScalar("isAffectedByEV", is_self_affected_by_ev);
+}
+
+void TraCIDemo11p::initialize(int stage) {
+    BaseWaveApplLayer::initialize(stage);
+    if (stage == 0) {
+
+        fs.open ("effected.txt", std::fstream::in | std::fstream::out | std::fstream::app);
+        mobility = TraCIMobilityAccess().get(getParentModule());
+        traci = mobility->getCommandInterface();
+        traciVehicle = mobility->getVehicleCommandInterface();
+        traciLane = mobility->getLaneCommandInterface();
+        annotations = AnnotationManagerAccess().getIfExists();
+        ASSERT(annotations);
+
+        sentMessage = false;
+        lastDroveAt = simTime();
+        findHost()->subscribe(parkingStateChangedSignal, this);
+        isParking = false;
+        sendWhileParking = par("sendWhileParking").boolValue();
+        msg_count = 0;
+        avg_delay = 0;
+        WATCH(msg_count);
+        WATCH(avg_delay);
+
+    }
+
+    lane = stoi(traciVehicle->getLaneId());
+
+    speedLimit = max_speed_lane[lane];
+    vipSpeed = max_speed_lane[lane];
+
+
+
+    if(strcmp(traciVehicle->nodeId.c_str(),"vip")==0){
+        preffered_speed = max_speed_lane[0];
+        traciVehicle->changeLane(0,50000);
+        is_self_affected_by_ev = 1;
+        cout << "EV: " << traciVehicle->getTypeId() << endl;
+
+        recordScalar("is EV",1.0);
+    }else{
+        preffered_speed = max_speed_lane[lane] - abs(normal(0, max_speed_lane[lane] * 0.1));
+        recordScalar("is EV",0.0);
+    }
+
+//    cout << "Speed of " << traciVehicle->nodeId << " : "<< preffered_speed << endl;
+
+    traciVehicle->setSpeed(getSpeed());
+    twoSecondRuleCheck = new cMessage("twoSecondRuleCheck");
+    changeLane = new cMessage("changeLane");
+    proprityTimer = new cMessage("proprityTimer");
+
+    scheduleAt(simTime() + two_sec_freq, twoSecondRuleCheck);
+}
+double TraCIDemo11p::getSpeed(){
+
+    double speed = preffered_speed;
+
+    if(givingPriority){
+        speed = givingPrioritySpeed;
+    }
+    double two_second_speed = nxtVehicle / 2; // m/s
+
+    if(two_second_speed < speed){
+        if(is_blocking_vehivle_affected_by_ev > 0){
+            is_self_affected_by_ev = is_blocking_vehivle_affected_by_ev;
+        }
+        speed = two_second_speed;
+    }
+    return speed;
+
+}
+
+void TraCIDemo11p::onDont_change(WaveShortMessage* wsm) {
+    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
+    msg_count = msg_count + 1;
+
+    EV << "Dont change sent \n";
+
+    if(traciVehicle->nodeId == wsm->getWsmData()){
+        //normal vehicle is getting Don't change message
+        dontChange = true;
+        //        traciVehicle->setSpeed(19.44);
+
+    }else if(traciVehicle->nodeId == "vip" and wsm->getSenderPos().y != mobility->getPositionAt(simTime()).y){
+        vip_last_update = simTime();
+        if(wsm->getSpeed()<=traciVehicle->getSpeed()){
+            blockVehicle = wsm->getWsmData();
+            //            traciVehicle->setSpeed(wsm->getSpeed());
+        }
+    }
+
+}
+
+void TraCIDemo11p::onWant_change(WaveShortMessage* wsm) {
+    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
+    msg_count = msg_count + 1;
+
+    if(!printed){
+        printed = true;
+        fs <<"RSUExampleScenario.node["<< mobility->getNode()->getIndex() <<"].veinsmobility"<< endl;
+    }
+
+    if(traciVehicle->nodeId != "vip"){
+        givingPrioritySpeed = traciVehicle->getSpeed() * 0.8;
+        // is dender vehicle in another lane
+        if(mobility->getPositionAt(simTime()).y != wsm->getSenderPos().y){
+            f_punsafe = wsm->getSpeed() * twoSecondRuleValue;
+            b_punsafe = traciVehicle->getSpeed() * twoSecondRuleValue;
+            speed_margine = traciVehicle->getSpeed() - pow(traciVehicle->getSpeed()*traciVehicle->getSpeed() - 2*2.9*5.4 , 0.5);
+
+            if(( wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x< unsafe_margine && wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x>0) or (mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x<unsafe_margine && mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x>0)){
+                //vehicle is in unsafe region
+                sentVehicle = wsm->getWsmData();
+                sentSpeed = wsm->getSpeed();
+                WaveShortMessage* wsm = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+
+                wsm->setSpeed(givingPrioritySpeed);
+                givingPriority = true;
+                scheduleAt(simTime() + 5, proprityTimer);
+                is_self_affected_by_ev = 1.0;
+
+                sendWSM(wsm);
+            }
+            else if (mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x < f_punsafe &&  mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x > 0){
+                //vehicle is in front partially safe region
+                sentVehicle = wsm->getWsmData();
+                sentSpeed = wsm->getSpeed();
+                WaveShortMessage* wsm = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+
+                if( 0 < sentSpeed - traciVehicle->getSpeed()){
+                    wsm->setWsmData(sentVehicle.c_str());
+                    sendWSM(wsm);
+                    wsm->setSpeed(givingPrioritySpeed);
+                    givingPriority = true;
+                    scheduleAt(simTime() + 5, proprityTimer);
+                    is_self_affected_by_ev = 1.0;
+                }
+            }
+            else if (wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x > 0 && wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x < b_punsafe){
+                //vehicle is in back partially safe region
+                sentVehicle = wsm->getWsmData();
+                sentSpeed = wsm->getSpeed();
+
+                if(traciVehicle->getSpeed() - sentSpeed > 0){
+                    sendDont_change(wsm);
+                }
+            }
+        }
+    }
+}
+
+void TraCIDemo11p::sendDont_change(WaveShortMessage* wsm){
+    WaveShortMessage* wsm_new = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+    givingPriority = true;
+    scheduleAt(simTime() + 5, proprityTimer);
+    wsm->setSpeed(givingPrioritySpeed);
+
+    wsm->setWsmData(sentVehicle.c_str());
+    sendWSM(wsm);
+    is_self_affected_by_ev = 1.0;
+
+}
+
+void TraCIDemo11p::onBeacon(WaveShortMessage* wsm) {
+    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
+    msg_count = msg_count + 1;
+
+    if(strcmp(wsm->getWsmData(),"vip")==0 and !printed){
+        printed = true;
+        fs <<"RSUExampleScenario.node["<< mobility->getNode()->getIndex() <<"].veinsmobility"<< endl;
+    }
+
+    bool sender_same_lane = mobility->getPositionAt(simTime()).y == wsm->getSenderPos().y;
+    double distance_to_sender = wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x ;
+
+    if( sender_same_lane && distance_to_sender > 0){
+
+        if(distance_to_sender < nxtVehicle){
+            last_update = simTime();
+            nxtVehicle = distance_to_sender;
+            is_blocking_vehivle_affected_by_ev = wsm->getSender_affected_by_ev();
+        }
+    }
+
+    if(traciVehicle->nodeId != "vip"){
+        if(changed == true){
+            if(strcmp(wsm->getWsmData(),"vip") == 0 && (wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x) > traciVehicle->getSpeed() * 2){
+                //vehicle wants to change back the lane
+
+                if(pendingLaneChange){
+
+                }else{
+                    dontChange = false;
+
+                    WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+                    is_self_affected_by_ev = 1.0;
+                    wsm->setWsmData(traciVehicle->nodeId.c_str());
+                    wsm->setSenderPos(mobility->getPositionAt(simTime()));
+                    wsm->setSpeed(traciVehicle->getSpeed());
+                    wsm->setSender_affected_by_ev(is_self_affected_by_ev);
+                    wsm->setBitLength(4000);
+                    sendWSM(wsm);
+                    pendingLaneChange = true;
+
+
+                    scheduleAt(simTime() + 2, changeLane);
+                }
+            }
+        }else if(strcmp(wsm->getWsmData(),"vip")==0 && traciVehicle->getLaneIndex() == 0 && (wsm->getSenderPos().x < mobility->getPositionAt(simTime()).x)){
+            // Now the vehicle wants to change the lane
+            if(pendingLaneChange){
+
+            }else{
+                dontChange = false;
+
+                WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+                is_self_affected_by_ev = 1.0;
+                wsm->setWsmData(traciVehicle->nodeId.c_str());
+                wsm->setSenderPos(mobility->getPositionAt(simTime()));
+                wsm->setSpeed(traciVehicle->getSpeed());
+                wsm->setBitLength(4000);
+                wsm->setSender_affected_by_ev(is_self_affected_by_ev);
+                sendWSM(wsm);
+                pendingLaneChange = true;
+                scheduleAt(simTime() + 2, changeLane);
+            }
+        }
+    }
+}
+
+
+// START READING THE CODE FROM HERE
+void TraCIDemo11p::handleSelfMsg(cMessage *msg)
+{
+    if(msg == sendBeaconEvt) {
+
+        WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+        wsm->setSpeed(mobility->getSpeed());
+        wsm->setWsmData(traciVehicle -> nodeId.c_str());
+        wsm->setBitLength(4000);
+        wsm->setSender_affected_by_ev(is_self_affected_by_ev);
+        sendWSM(wsm);
+        scheduleAt(simTime() + freq, sendBeaconEvt);
+
+    }else if(msg == changeLane){
+        EV <<  "Change Lane alled" << endl ;
+        if(dontChange == false){
+            if(traciVehicle->getLaneIndex() == 0){
+                changed = true;
+                traciVehicle->changeLane(1,50000);
+            }else{
+                traciVehicle->changeLane(0,50000);
+                changed = false;
+            }
+            pendingLaneChange = false;
+        }else{
+            dontChange = false;
+            WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+            wsm->setWsmData(traciVehicle->nodeId.c_str());
+            wsm->setSenderPos(mobility->getPositionAt(simTime()));
+            wsm->setSpeed(traciVehicle->getSpeed());
+            wsm->setBitLength(4000);
+            sendWSM(wsm);
+            scheduleAt(simTime() + 1, changeLane);
+        }
+
+    }else if (msg == twoSecondRuleCheck){
+        if(simTime() - last_update > 2){
+            nxtVehicle = 1000;
+            last_update = simTime();
+            is_blocking_vehivle_affected_by_ev = 0;
+        }
+        traciVehicle->setSpeed(getSpeed());
+        scheduleAt(simTime() + two_sec_freq, twoSecondRuleCheck);
+    }
+    else if(msg == proprityTimer){
+        givingPriority = false;
+    }
+}
+
+void TraCIDemo11p::onData(WaveShortMessage* wsm) {
+
+}
+
+void TraCIDemo11p::sendMessage(std::string blockedRoadId) {
+    sentMessage = true;
+    t_channel channel = dataOnSch ? type_SCH : type_CCH;
+    WaveShortMessage* wsm = prepareWSM("data", dataLengthBits, channel, dataPriority, -1,2);
+    wsm->setWsmData(blockedRoadId.c_str());
+    sendWSM(wsm);
+}
+
+void TraCIDemo11p::receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details) {
+    Enter_Method_Silent();
+    if (signalID == mobilityStateChangedSignal) {
+        handlePositionUpdate(obj);
+    }
+    else if (signalID == parkingStateChangedSignal) {
+        handleParkingUpdate(obj);
+    }
+}
+
+void TraCIDemo11p::handleParkingUpdate(cObject* obj) {
+    isParking = mobility->getParkingState();
+    if (sendWhileParking == false) {
+        if (isParking == true) {
+            (FindModule<BaseConnectionManager*>::findGlobalModule())->unregisterNic(this->getParentModule()->getSubmodule("nic"));
+        }
+        else {
+            Coord pos = mobility->getCurrentPosition();
+            (FindModule<BaseConnectionManager*>::findGlobalModule())->registerNic(this->getParentModule()->getSubmodule("nic"), (ChannelAccess*) this->getParentModule()->getSubmodule("nic")->getSubmodule("phy80211p"), &pos);
+        }
+    }
+}
+
+void TraCIDemo11p::handlePositionUpdate(cObject* obj) {
+    BaseWaveApplLayer::handlePositionUpdate(obj);
+
+    // stopped for for at least 10s?
+    if (mobility->getSpeed() < 1) {
+        if (simTime() - lastDroveAt >= 2) {
+            //findHost()->getDisplayString().updateWith("r=6,red");
+            //if (!sentMessage) sendMessage(mobility->getRoadId());
+        }
+    }
+    else {
+        lastDroveAt = simTime();
+    }
+}
+
+void TraCIDemo11p::sendWSM(WaveShortMessage* wsm) {
+    //this method has not beed edited by akkala
+    if (isParking && !sendWhileParking) return;
+    sendDelayedDown(wsm,individualOffset);
+}

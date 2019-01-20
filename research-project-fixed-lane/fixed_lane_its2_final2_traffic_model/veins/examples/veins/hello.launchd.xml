@@ -1,0 +1,2 @@
+<!-- debug config -->
+<launch><copy file="hello.net.xml"/><copy file="hello.rou.xml"/><copy file="hello.settings.xml"/><copy file="hello.sumo.cfg" type="config"/></launch>

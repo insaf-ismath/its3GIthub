@@ -1,0 +1,150 @@
+//
+// Copyright (C) 2006-2011 Christoph Sommer <christoph.sommer@uibk.ac.at>
+//
+// Documentation for these modules is at http://veins.car2x.org/
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+//
+
+#ifndef TraCIDemo11p_H
+#define TraCIDemo11p_H
+
+#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+#include "veins/modules/mobility/traci/TraCIMobility.h"
+#include "veins/modules/mobility/traci/TraCICommandInterface.h"
+#include "veins/modules/mobility/traci/TraCIConstants.h"
+
+
+
+using Veins::TraCIMobility;
+using Veins::TraCICommandInterface;
+using Veins::AnnotationManager;
+
+/**
+ * Small IVC Demo using 11p
+ */
+class TraCIDemo11p : public BaseWaveApplLayer {
+	public:
+		virtual void initialize(int stage);
+		virtual void finish();
+		virtual void receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details);
+		enum WaveApplMessageKinds {
+		            START_SLOW_DOWN_MESSAGE
+		        };
+
+	protected:
+		std::fstream fs;
+		TraCIMobility* mobility;
+		TraCICommandInterface* traci;
+		TraCICommandInterface::Vehicle* traciVehicle;
+		TraCICommandInterface::Lane* traciLane;
+		AnnotationManager* annotations;
+		simtime_t lastDroveAt;
+		cMessage* startSlowDownMsg;
+		cMessage* setSpeedMsg;
+		cMessage* changeLane;
+        cMessage* updateChanged;
+		cMessage* keepSpeedMsg;
+		cMessage* keepSpeedZeroMsg;
+		cMessage* twoSecondRuleCheck;
+		cMessage* proprityTimer;
+
+		bool sentMessage;
+		bool isParking;
+		bool sendWhileParking;
+		static const simsignalwrap_t parkingStateChangedSignal;
+
+		//new
+		int msg_count = 0;
+		double avg_delay = 0;
+		bool printed = false;
+		simtime_t last_update;
+        simtime_t vip_last_update;
+		bool increment = false;
+		bool decrement = false;
+		double last_speed;
+        float prev_accel ;
+        float accel;
+        double prev_dist;
+        bool set_accel;
+        float acceleration;
+        bool speed_set;
+        std::string neighbour;
+        double speedSet; //change ************************* variable to pass with selfmessage
+        double set_MaxSpeed;
+        double decel_set;
+        double f_punsafe;
+        double b_punsafe;
+
+        //TO EDIT
+        double twoSecondRuleValue = 2; // seconds
+        double speed_margine = 1;  //Vg
+        double unsafe_margine = (4.3 + 6.5)/2; //Unsafe region = (length of a normal vehicle + length of an ambulance)/2
+        double speedLimit = 22.2;  // maximum speed of a normal vehicle
+        double vipSpeed = 22.2;    // maximum speed of VIP
+
+        // Highway
+//      double max_speed_lane[2] = {27.7, 27.7};
+        // Suburban
+//        double max_speed_lane[2] = {22.2, 22.2};
+//         Urban
+        double max_speed_lane[2] = {11.11, 11.11};
+
+
+        double preffered_speed = 0;
+        double mean_speed_lane[2] = {max_speed_lane[0]*0.8, max_speed_lane[1]*0.8};
+        double sd_speed_lane[2] = {5, 5};
+        int lane = 0;
+
+
+
+        double freq = 0.909; //Beaconing frequency of VIP and other vehicles
+        double two_sec_freq = 0.909;
+        //new
+        bool changed = false;
+        bool wantChange = false;
+        bool dontChange = false;
+        bool sendbeacon = true;
+        bool pendingLaneChange = false;
+        bool givingPriority = false;
+        double givingPrioritySpeed = 0;
+
+        double setToSpeed = 0.0;
+        double sentSpeed = 0.0;
+        double nxtVehicle = 1000.0;
+        std::string sentVehicle = "none";
+        std::string blockVehicle = "none";
+
+        double is_blocking_vehivle_affected_by_ev = 0.0;
+        double is_self_affected_by_ev = 0;
+
+//        <vehicle arrivalLane="0" color="red" depart="300" departLane="0" id="vip" route="route0" type="CarVIP" />
+
+	protected:
+		virtual void onBeacon(WaveShortMessage* wsm);
+		virtual void handleSelfMsg(cMessage *msg);
+		virtual void onData(WaveShortMessage* wsm);
+		virtual void onWant_change(WaveShortMessage* wsm);
+        virtual void onDont_change(WaveShortMessage* wsm);
+		virtual void sendMessage(std::string blockedRoadId);
+		virtual void handlePositionUpdate(cObject* obj);
+		virtual void handleParkingUpdate(cObject* obj);
+		virtual void sendWSM(WaveShortMessage* wsm);
+        virtual double getSpeed();
+        virtual void sendDont_change(WaveShortMessage* wsm);
+
+};
+
+#endif

@@ -1,0 +1,14 @@
+<routes>
+	<vType accel="2.9" color="yellow" decel="7.5" id="Car" length="4.3" maxSpeed="28" minGap="-1" sigma="0.0" tau="0" />
+	<vType accel="2.9" color="red" decel="7.5" id="CarVIP" length="6.5" maxSpeed="28" minGap="-1" sigma="0.0" tau="0" />
+	<route edges="1to2" id="route0" />
+
+	 <vehicle arrivalLane="0" depart="3.123467391" departLane="0" id="v119" route="route0" type="Car" />
+	 <vehicle arrivalLane="0" depart="8.55587554" departLane="0" id="v120" route="route0" type="Car" />
+	 <vehicle arrivalLane="1" depart="9.694037467" departLane="1" id="v121" route="route0" type="Car" />
+	 <vehicle arrivalLane="0" depart="11.160559349" departLane="0" id="v122" route="route0" type="Car" />
+	 <vehicle arrivalLane="0" depart="11.829823887" departLane="0" id="v123" route="route0" type="Car" />
+	 <vehicle arrivalLane="1" depart="12.225575259" departLane="1" id="v124" route="route0" type="Car" />
+	 <vehicle arrivalLane="0" depart="12.225575259" departLane="0" id="vip" route="route0" type="CarVIP" />
+	 
+</routes>
