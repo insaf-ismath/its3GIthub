@@ -22,18 +22,19 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.omnetpp.launch.ADDITIONAL_ARG" value=""/>
-<stringAttribute key="org.omnetpp.launch.CONFIG_NAME" value=""/>
+<stringAttribute key="org.omnetpp.launch.CONFIG_NAME" value="General"/>
 <stringAttribute key="org.omnetpp.launch.DEBUG_ON_ERRORS" value="auto"/>
 <stringAttribute key="org.omnetpp.launch.EXECUTABLE" value=""/>
 <stringAttribute key="org.omnetpp.launch.IMAGE_PATH" value="${opp_image_path:/veins/examples/veins}"/>
 <stringAttribute key="org.omnetpp.launch.INI_FILES" value="omnetpp.ini"/>
 <stringAttribute key="org.omnetpp.launch.NED_PATH" value="${opp_ned_path:/veins/examples/veins}"/>
 <intAttribute key="org.omnetpp.launch.NUM_CONCURRENT_PROCESSES" value="1"/>
-<stringAttribute key="org.omnetpp.launch.RECORD_EVENTLOG" value=""/>
-<stringAttribute key="org.omnetpp.launch.RUN" value=""/>
+<stringAttribute key="org.omnetpp.launch.RECORD_EVENTLOG" value="false"/>
+<stringAttribute key="org.omnetpp.launch.RUN" value="0.."/>
 <stringAttribute key="org.omnetpp.launch.RUN.FOR_DEBUG" value=""/>
 <stringAttribute key="org.omnetpp.launch.SHARED_LIBS" value="${opp_shared_libs:/veins/examples/veins}"/>
 <booleanAttribute key="org.omnetpp.launch.SHOW_DEBUG_VIEW" value="false"/>
-<stringAttribute key="org.omnetpp.launch.USER_INTERFACE" value="Tkenv"/>
+<stringAttribute key="org.omnetpp.launch.USER_INTERFACE" value="Cmdenv"/>
 <stringAttribute key="org.omnetpp.launch.WORKING_DIRECTORY" value="/veins/examples/veins"/>
+<stringAttribute key="process_factory_id" value="org.eclipse.cdt.dsf.gdb.GdbProcessFactory"/>
 </launchConfiguration>

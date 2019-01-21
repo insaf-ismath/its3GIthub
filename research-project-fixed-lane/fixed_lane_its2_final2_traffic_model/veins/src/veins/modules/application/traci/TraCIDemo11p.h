@@ -36,64 +36,34 @@ using Veins::AnnotationManager;
  * Small IVC Demo using 11p
  */
 class TraCIDemo11p : public BaseWaveApplLayer {
-	public:
-		virtual void initialize(int stage);
-		virtual void finish();
-		virtual void receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details);
-		enum WaveApplMessageKinds {
-		            START_SLOW_DOWN_MESSAGE
-		        };
+public:
+    enum WaveApplMessageKinds {
+        START_SLOW_DOWN_MESSAGE
+    };
 
+    enum EVStrategy {
+        EV_FIXED_LANE,
+        EV_BEST_LANE
+    };
 	protected:
 		std::fstream fs;
+        TraCICommandInterface* traci;
 		TraCIMobility* mobility;
-		TraCICommandInterface* traci;
 		TraCICommandInterface::Vehicle* traciVehicle;
 		TraCICommandInterface::Lane* traciLane;
 		AnnotationManager* annotations;
-		simtime_t lastDroveAt;
-		cMessage* startSlowDownMsg;
-		cMessage* setSpeedMsg;
-		cMessage* changeLane;
-        cMessage* updateChanged;
-		cMessage* keepSpeedMsg;
-		cMessage* keepSpeedZeroMsg;
-		cMessage* twoSecondRuleCheck;
-		cMessage* proprityTimer;
 
-		bool sentMessage;
-		bool isParking;
-		bool sendWhileParking;
+		cMessage* changeLane;
+
 		static const simsignalwrap_t parkingStateChangedSignal;
 
-		//new
-		int msg_count = 0;
-		double avg_delay = 0;
-		bool printed = false;
-		simtime_t last_update;
-        simtime_t vip_last_update;
-		bool increment = false;
-		bool decrement = false;
-		double last_speed;
-        float prev_accel ;
-        float accel;
-        double prev_dist;
-        bool set_accel;
-        float acceleration;
-        bool speed_set;
-        std::string neighbour;
-        double speedSet; //change ************************* variable to pass with selfmessage
-        double set_MaxSpeed;
-        double decel_set;
-        double f_punsafe;
-        double b_punsafe;
-
-        //TO EDIT
-        double twoSecondRuleValue = 2; // seconds
-        double speed_margine = 1;  //Vg
-        double unsafe_margine = (4.3 + 6.5)/2; //Unsafe region = (length of a normal vehicle + length of an ambulance)/2
-        double speedLimit = 22.2;  // maximum speed of a normal vehicle
-        double vipSpeed = 22.2;    // maximum speed of VIP
+		int EVStrategyUsed  = EV_FIXED_LANE;
+        bool isEV;
+        int lane;
+        double bpd;
+        double URegion      = (4.3 + 6.5)/2; //Unsafe region = (length of a normal vehicle + length of an ambulance)/2
+        double speedLimit   = 22.2;  // maximum speed of a normal vehicle
+        double vipSpeed     = 22.2;    // maximum speed of VIP
 
         // Highway
 //      double max_speed_lane[2] = {27.7, 27.7};
@@ -103,48 +73,41 @@ class TraCIDemo11p : public BaseWaveApplLayer {
         double max_speed_lane[2] = {11.11, 11.11};
 
 
-        double preffered_speed = 0;
-        double mean_speed_lane[2] = {max_speed_lane[0]*0.8, max_speed_lane[1]*0.8};
-        double sd_speed_lane[2] = {5, 5};
-        int lane = 0;
 
 
 
-        double freq = 0.909; //Beaconing frequency of VIP and other vehicles
-        double two_sec_freq = 0.5;
-        //new
-        bool changed = false;
-        bool wantChange = false;
+        double beaconningInterval = 0.909; //Beaconing frequency of VIP and other vehicles
+
+        bool changed    = false;
         bool dontChange = false;
-        bool sendbeacon = true;
-        bool pendingLaneChange = false;
-        bool givingPriority = false;
-        double givingPrioritySpeed = 0;
 
-        double setToSpeed = 0.0;
-        double sentSpeed = 0.0;
-        double nxtVehicle = 1000.0;
-        std::string sentVehicle = "none";
-        std::string blockVehicle = "none";
-
-        double is_blocking_vehivle_affected_by_ev = 0.0;
-        double is_self_affected_by_ev = 0;
+        bool isBVSffectedByEV = 0.0;
+        bool isAffectedByEV     = 0;
 
 //        <vehicle arrivalLane="0" color="red" depart="300" departLane="0" id="vip" route="route0" type="CarVIP" />
+	public:
+        virtual void initialize(int stage);
+        virtual void finish();
 
 	protected:
-		virtual void onBeacon(WaveShortMessage* wsm);
 		virtual void handleSelfMsg(cMessage *msg);
-		virtual void onData(WaveShortMessage* wsm);
-		virtual void onWant_change(WaveShortMessage* wsm);
-        virtual void onDont_change(WaveShortMessage* wsm);
-		virtual void sendMessage(std::string blockedRoadId);
-		virtual void handlePositionUpdate(cObject* obj);
-		virtual void handleParkingUpdate(cObject* obj);
-		virtual void sendWSM(WaveShortMessage* wsm);
-        virtual double getSpeed();
-        virtual void sendDont_change(WaveShortMessage* wsm);
+        virtual void handleSelfMsgFixedLane(cMessage *msg);
+        virtual void handleSelfMsgBestLane(cMessage *msg);
 
+        virtual void onBeacon(WaveShortMessage* wsm);
+        virtual void handleBeaconFixedLane(WaveShortMessage* wsm);
+        virtual void handleBeaconBestLane(WaveShortMessage* wsm);
+
+
+
+		virtual void onData(WaveShortMessage* wsm);
+		virtual void onWantChange(WaveShortMessage* wsm);
+        virtual void onDontChange(WaveShortMessage* wsm);
+		virtual void sendWSM(WaveShortMessage* wsm);
+        virtual void sendDontChange(int recID);
+
+
+        virtual void scheduleChangeLane();
 };
 
 #endif

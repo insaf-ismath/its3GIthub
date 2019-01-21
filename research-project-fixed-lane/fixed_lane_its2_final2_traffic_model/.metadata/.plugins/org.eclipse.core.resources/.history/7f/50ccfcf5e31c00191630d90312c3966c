@@ -1,0 +1,13 @@
+<routes>
+
+<vType accel="2.9" decel="7.5" id="NV" color="green" length="4.3" maxSpeed="27.78" minGap="0" sdev="0.1" sigma="0.0" tau="2" />
+<vType accel="2.9" decel="7.5" id="EV" color="red" length="6.5" maxSpeed="27.78" minGap="0" sigma="0.0" tau="2" />
+
+<route edges="1to2" id="route0" />
+
+<flow id="flow0" type="NV"  arrivalLane="0" departLane="0" route="route0" begin="0" end="500" probability="0.4" />
+<flow id="flow1" type="NV"  arrivalLane="1" departLane="1" route="route0" begin="0" end="500" probability="0.4" />
+
+<vehicle arrivalLane="0" color="red" depart="100" departLane="0" id="vip" route="route0" type="EV" />
+
+</routes>

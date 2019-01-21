@@ -55,5 +55,7 @@ packet WaveShortMessage {
 	double Acceleration = 0;
 	double MaxSpeed =0;
 	
-	double sender_affected_by_ev = 0.0;
+	double senderAffectedByEV = 0.0;
+	bool isSenderEV;
+	int lane;
 }

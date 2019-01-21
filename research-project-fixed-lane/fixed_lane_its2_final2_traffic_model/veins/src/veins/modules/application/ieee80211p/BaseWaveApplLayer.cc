@@ -77,6 +77,8 @@ WaveShortMessage*  BaseWaveApplLayer::prepareWSM(std::string name, int lengthBit
 	wsm->setSenderPos(curPosition);
 	wsm->setSerial(serial);
 
+
+
 	//new
 	//wsm->setSpeed(speed);
 	//wsm->setAcceleration(acceleration);
@@ -121,10 +123,10 @@ void BaseWaveApplLayer::handleLowerMsg(cMessage* msg) {
 		onData(wsm);
 	}
     else if (std::string(wsm->getName()) == "want_change") {
-        onWant_change(wsm);
+        onWantChange(wsm);
     }
     else if (std::string(wsm->getName()) == "dont_change") {
-        onDont_change(wsm);
+        onDontChange(wsm);
     }
 	else {
 		DBG << "unknown message (" << wsm->getName() << ")  received\n";

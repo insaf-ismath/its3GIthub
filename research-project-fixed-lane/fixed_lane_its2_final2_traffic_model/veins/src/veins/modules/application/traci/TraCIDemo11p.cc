@@ -33,287 +33,151 @@ const simsignalwrap_t TraCIDemo11p::parkingStateChangedSignal = simsignalwrap_t(
 
 Define_Module(TraCIDemo11p);
 
-void TraCIDemo11p::finish()
-{
-    recordScalar("end_to_end_delay", avg_delay);
-    recordScalar("isAffectedByEV", is_self_affected_by_ev);
-}
-
 void TraCIDemo11p::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
-
-        fs.open ("effected.txt", std::fstream::in | std::fstream::out | std::fstream::app);
-        mobility = TraCIMobilityAccess().get(getParentModule());
-        traci = mobility->getCommandInterface();
-        traciVehicle = mobility->getVehicleCommandInterface();
-        traciLane = mobility->getLaneCommandInterface();
-        annotations = AnnotationManagerAccess().getIfExists();
+        mobility        = TraCIMobilityAccess().get(getParentModule());
+        traci           = mobility->getCommandInterface();
+        traciVehicle    = mobility->getVehicleCommandInterface();
+        traciLane       = mobility->getLaneCommandInterface();
+        annotations     = AnnotationManagerAccess().getIfExists();
         ASSERT(annotations);
-
-        sentMessage = false;
-        lastDroveAt = simTime();
         findHost()->subscribe(parkingStateChangedSignal, this);
-        isParking = false;
-        sendWhileParking = par("sendWhileParking").boolValue();
-        msg_count = 0;
-        avg_delay = 0;
-        WATCH(msg_count);
-        WATCH(avg_delay);
 
-    }
+        bpd = par("bpdis");
+        traciVehicle->setSpeedMode(23);
 
-    lane = stoi(traciVehicle->getLaneId());
+        lane = stoi(traciVehicle->getLaneId());
+        isEV = strcmp(traciVehicle->nodeId.c_str(),"vip") == 0;
 
-    speedLimit = max_speed_lane[lane];
-    vipSpeed = max_speed_lane[lane];
-
-
-
-    if(strcmp(traciVehicle->nodeId.c_str(),"vip")==0){
-        preffered_speed = max_speed_lane[0];
-        traciVehicle->changeLane(0,50000);
-        is_self_affected_by_ev = 1;
-        cout << "EV: " << traciVehicle->getTypeId() << endl;
-
-        recordScalar("is EV",1.0);
-    }else{
-        preffered_speed = max_speed_lane[lane] - abs(normal(0, max_speed_lane[lane] * 0.1));
-        recordScalar("is EV",0.0);
-    }
-
-//    cout << "Speed of " << traciVehicle->nodeId << " : "<< preffered_speed << endl;
-
-    traciVehicle->setSpeed(getSpeed());
-    twoSecondRuleCheck = new cMessage("twoSecondRuleCheck");
-    changeLane = new cMessage("changeLane");
-    proprityTimer = new cMessage("proprityTimer");
-
-    scheduleAt(simTime() + two_sec_freq, twoSecondRuleCheck);
-}
-double TraCIDemo11p::getSpeed(){
-
-    double speed = preffered_speed;
-
-    if(givingPriority){
-        speed = givingPrioritySpeed;
-    }
-    double two_second_speed = nxtVehicle / 2; // m/s
-
-    if(two_second_speed < speed){
-        if(is_blocking_vehivle_affected_by_ev > 0){
-            is_self_affected_by_ev = is_blocking_vehivle_affected_by_ev;
+        if(isEV){
+            std::cout<<"Node["<<myId<<"] : isEV : lane = " << lane << endl;
+            std::cout<<"Node["<<myId<<"] : bpd = " << bpd << endl;
         }
-        speed = two_second_speed;
-    }
-    return speed;
-
-}
-
-void TraCIDemo11p::onDont_change(WaveShortMessage* wsm) {
-    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
-    msg_count = msg_count + 1;
-
-    EV << "Dont change sent \n";
-
-    if(traciVehicle->nodeId == wsm->getWsmData()){
-        //normal vehicle is getting Don't change message
-        dontChange = true;
-        //        traciVehicle->setSpeed(19.44);
-
-    }else if(traciVehicle->nodeId == "vip" and wsm->getSenderPos().y != mobility->getPositionAt(simTime()).y){
-        vip_last_update = simTime();
-        if(wsm->getSpeed()<=traciVehicle->getSpeed()){
-            blockVehicle = wsm->getWsmData();
-            //            traciVehicle->setSpeed(wsm->getSpeed());
-        }
+        changeLane = new cMessage("changeLane");
     }
 
 }
 
-void TraCIDemo11p::onWant_change(WaveShortMessage* wsm) {
-    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
-    msg_count = msg_count + 1;
-
-    if(!printed){
-        printed = true;
-        fs <<"RSUExampleScenario.node["<< mobility->getNode()->getIndex() <<"].veinsmobility"<< endl;
+void TraCIDemo11p::handleSelfMsg(cMessage *msg)
+{
+    switch(EVStrategyUsed){
+        case EV_FIXED_LANE:
+            handleSelfMsgFixedLane(msg);
+            break;
+        case EV_BEST_LANE:
+            handleSelfMsgBestLane(msg);
+            break;
     }
-
-    if(traciVehicle->nodeId != "vip"){
-        givingPrioritySpeed = traciVehicle->getSpeed() * 0.8;
-        // is dender vehicle in another lane
-        if(mobility->getPositionAt(simTime()).y != wsm->getSenderPos().y){
-            f_punsafe = wsm->getSpeed() * twoSecondRuleValue;
-            b_punsafe = traciVehicle->getSpeed() * twoSecondRuleValue;
-            speed_margine = traciVehicle->getSpeed() - pow(traciVehicle->getSpeed()*traciVehicle->getSpeed() - 2*2.9*5.4 , 0.5);
-
-            if(( wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x< unsafe_margine && wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x>0) or (mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x<unsafe_margine && mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x>0)){
-                //vehicle is in unsafe region
-                sendDont_change(wsm);
-            }
-            else if (mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x < f_punsafe &&  mobility->getPositionAt(simTime()).x - wsm->getSenderPos().x > 0){
-                //vehicle is in front partially safe region
-                sentVehicle = wsm->getWsmData();
-                sentSpeed = wsm->getSpeed();
-                WaveShortMessage* wsm = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-
-                if( 0 < sentSpeed - traciVehicle->getSpeed()){
-                    sendDont_change(wsm);
-                }
-            }
-            else if (wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x > 0 && wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x < b_punsafe){
-                //vehicle is in back partially safe region
-                sentVehicle = wsm->getWsmData();
-                sentSpeed = wsm->getSpeed();
-
-                if(traciVehicle->getSpeed() - sentSpeed > 0){
-                    sendDont_change(wsm);
-                }
-            }
-        }
-    }
-}
-
-void TraCIDemo11p::sendDont_change(WaveShortMessage* wsm){
-    givingPrioritySpeed = preffered_speed * 0.8;
-    traciVehicle->setSpeed(traciVehicle->getSpeed() * 0.8);
-    WaveShortMessage* wsm_new = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-    givingPriority = true;
-    cancelEvent(proprityTimer);
-    scheduleAt(simTime() + 5, proprityTimer);
-    wsm_new->setWsmData(wsm->getWsmData());
-    sendWSM(wsm_new);
-//    is_self_affected_by_ev = 1.0;
-
 }
 
 void TraCIDemo11p::onBeacon(WaveShortMessage* wsm) {
-    avg_delay = ((simTime().dbl() - wsm->getTimestamp().dbl()) + msg_count*avg_delay)/(msg_count + 1);
-    msg_count = msg_count + 1;
-
-    if(strcmp(wsm->getWsmData(),"vip")==0 and !printed){
-        printed = true;
-        fs <<"RSUExampleScenario.node["<< mobility->getNode()->getIndex() <<"].veinsmobility"<< endl;
+    switch(EVStrategyUsed){
+        case EV_FIXED_LANE:
+            handleBeaconFixedLane(wsm);
+            break;
+        case EV_BEST_LANE:
+            handleBeaconBestLane(wsm);
+            break;
     }
+}
 
-    bool sender_same_lane = mobility->getPositionAt(simTime()).y == wsm->getSenderPos().y;
-    double distance_to_sender = wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x ;
-
-    if( sender_same_lane && distance_to_sender > 0){
-
-        if(distance_to_sender < nxtVehicle){
-            last_update = simTime();
-            nxtVehicle = distance_to_sender;
-            is_blocking_vehivle_affected_by_ev = wsm->getSender_affected_by_ev();
-            traciVehicle->setSpeed(getSpeed());
-        }
-    }
-
-    if(traciVehicle->nodeId != "vip"){
-        if(changed == true){
-            if(strcmp(wsm->getWsmData(),"vip") == 0 && (wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x) > traciVehicle->getSpeed() * 2){
-                //vehicle wants to change back the lane
-
-                if(pendingLaneChange){
-
-                }else{
-                    dontChange = false;
-
-                    WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-                    is_self_affected_by_ev = 1.0;
-                    wsm->setWsmData(traciVehicle->nodeId.c_str());
-                    wsm->setSenderPos(mobility->getPositionAt(simTime()));
-                    wsm->setSpeed(traciVehicle->getSpeed());
-                    wsm->setSender_affected_by_ev(is_self_affected_by_ev);
-                    wsm->setBitLength(4000);
-                    sendWSM(wsm);
-                    pendingLaneChange = true;
-
-
-                    scheduleAt(simTime() + 2, changeLane);
-                }
+void TraCIDemo11p::handleSelfMsgFixedLane(cMessage *msg)
+{
+    if(msg == sendBeaconEvt && isEV){
+        WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+        sendWSM(wsm);
+    }else if(msg == changeLane){
+        EV <<  "Change Lane called" << endl ;
+        if(!dontChange){
+            if(traciVehicle->getLaneIndex() == 0){
+                traciVehicle->changeLane(1,50000);
+                changed = true;
+                lane = 1;
+            }else if(traciVehicle->getLaneIndex() == 1){
+                traciVehicle->changeLane(0,50000);
+                changed = false;
+                lane = 0;
             }
-        }else if(strcmp(wsm->getWsmData(),"vip")==0 && traciVehicle->getLaneIndex() == 0 && (wsm->getSenderPos().x < mobility->getPositionAt(simTime()).x)){
-            // Now the vehicle wants to change the lane
-            if(pendingLaneChange){
-
-            }else{
-                dontChange = false;
-
-                WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-                is_self_affected_by_ev = 1.0;
-                wsm->setWsmData(traciVehicle->nodeId.c_str());
-                wsm->setSenderPos(mobility->getPositionAt(simTime()));
-                wsm->setSpeed(traciVehicle->getSpeed());
-                wsm->setBitLength(4000);
-                wsm->setSender_affected_by_ev(is_self_affected_by_ev);
-                sendWSM(wsm);
-                pendingLaneChange = true;
-                scheduleAt(simTime() + 2, changeLane);
-            }
+            std::cout<<"Node["<<myId<<"] : lane change : newLane = " << lane << endl;
+        }else{
+            scheduleChangeLane();
         }
     }
 }
 
-
-// START READING THE CODE FROM HERE
-void TraCIDemo11p::handleSelfMsg(cMessage *msg)
+void TraCIDemo11p::handleSelfMsgBestLane(cMessage *msg)
 {
-    if(msg == sendBeaconEvt) {
 
-        WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-        wsm->setSpeed(mobility->getSpeed());
-        wsm->setWsmData(traciVehicle -> nodeId.c_str());
-        wsm->setBitLength(4000);
-        wsm->setSender_affected_by_ev(is_self_affected_by_ev);
-        sendWSM(wsm);
-        scheduleAt(simTime() + freq, sendBeaconEvt);
+}
 
+void TraCIDemo11p::handleBeaconFixedLane(WaveShortMessage* wsm)
+{
+    bool isSenderSameLane   = wsm->getLane() == lane;
+    bool isSenderAhead      = mobility->getPositionAt(simTime()).x < wsm->getSenderPos().x;
+    bool isSenderEV         = wsm->getIsSenderEV();
+    double distance2Sender  = abs(wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x);
 
-        ///////////////////////////////////
-        if (lane != stoi(traciVehicle->getLaneId())){
-            EV << "asdasd" << endl;
-
-        }
-        //////////////////////////////
-
-    }else if(msg == changeLane){
-        EV <<  "Change Lane alled" << endl ;
-        if(dontChange == false){
-            if(traciVehicle->getLaneIndex() == 0){
-                changed = true;
-                traciVehicle->changeLane(1,50000);
-            }else{
-                traciVehicle->changeLane(0,50000);
-                changed = false;
-            }
-            pendingLaneChange = false;
-            cancelEvent(sendBeaconEvt);
-            scheduleAt(simTime(), sendBeaconEvt);
-            cout << "lane change by:" << traciVehicle->nodeId << endl;
-        }else{
-            dontChange = false;
-            WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-            wsm->setWsmData(traciVehicle->nodeId.c_str());
-            wsm->setSenderPos(mobility->getPositionAt(simTime()));
-            wsm->setSpeed(traciVehicle->getSpeed());
-            wsm->setBitLength(4000);
-            sendWSM(wsm);
-            scheduleAt(simTime() + 1, changeLane);
-        }
-
-    }else if (msg == twoSecondRuleCheck){
-        if(simTime() - last_update > 2){
-            nxtVehicle = 1000;
-            last_update = simTime();
-            is_blocking_vehivle_affected_by_ev = 0;
-        }
-        traciVehicle->setSpeed(getSpeed());
-        scheduleAt(simTime() + two_sec_freq, twoSecondRuleCheck);
+    if(isSenderEV && isSenderSameLane && !isSenderAhead && distance2Sender < bpd){
+        scheduleChangeLane();
+    }else if(isSenderEV && !isSenderSameLane && isSenderAhead){
+        if(changed) scheduleChangeLane();
     }
-    else if(msg == proprityTimer){
-        givingPriority = false;
+}
+
+void TraCIDemo11p::scheduleChangeLane(){
+    if(!changeLane->isScheduled()){
+//        std::cout<<"Node["<<myId<<"] : change scheduled" << endl;
+        dontChange = false;
+        WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+        isAffectedByEV = 1.0;
+        sendWSM(wsm);
+        scheduleAt(simTime() + 2, changeLane);
+    }
+}
+
+void TraCIDemo11p::handleBeaconBestLane(WaveShortMessage* wsm)
+{
+
+}
+
+void TraCIDemo11p::onDontChange(WaveShortMessage* wsm) {
+    EV << "Dont change received \n";
+    if(myId == wsm->getRecipientAddress()) dontChange = true;
+}
+
+void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
+
+    int senderID        = wsm->getSenderAddress();
+    double senderSpeed  = wsm->getSpeed();
+    double selfSpeed    = traciVehicle->getSpeed();
+    double RPURegion    = selfSpeed * 2;
+    double FPURegion    = senderSpeed * 2;
+    bool isSenderSameLane   = mobility->getPositionAt(simTime()).y != wsm->getSenderPos().y;
+    bool isSenderAhead      = mobility->getPositionAt(simTime()).x < wsm->getSenderPos().x;
+    double distance2Sender  = abs(wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x);
+//    speed_margine = traciVehicle->getSpeed() - pow(traciVehicle->getSpeed()*traciVehicle->getSpeed() - 2*2.9*5.4 , 0.5);
+
+    if(isSenderSameLane){
+        if(distance2Sender < URegion) {
+            sendDontChange(senderID);
+            traciVehicle->slowDown(traciVehicle->getSpeed() * 0.7, 100);
+//            traciVehicle->slowDown(senderSpeed,50);
+        }
+        else if(isSenderAhead){
+            if(distance2Sender < RPURegion && senderSpeed < selfSpeed){
+//                sendDontChange(senderID);
+                traciVehicle->slowDown(wsm->getSpeed()*0.9, 100);
+//                traciVehicle->slowDown(senderSpeed,50);
+            }
+        }else{
+            if(distance2Sender < FPURegion && senderSpeed > selfSpeed) {
+                sendDontChange(senderID);
+                traciVehicle->slowDown(wsm->getSpeed()*1.1, 100);
+            }
+
+//                traciVehicle->slowDown(senderSpeed,50);
+        }
     }
 }
 
@@ -321,54 +185,28 @@ void TraCIDemo11p::onData(WaveShortMessage* wsm) {
 
 }
 
-void TraCIDemo11p::sendMessage(std::string blockedRoadId) {
-    sentMessage = true;
-    t_channel channel = dataOnSch ? type_SCH : type_CCH;
-    WaveShortMessage* wsm = prepareWSM("data", dataLengthBits, channel, dataPriority, -1,2);
-    wsm->setWsmData(blockedRoadId.c_str());
+void TraCIDemo11p::sendDontChange(int recID){
+//    std::cout<<"Node["<<myId<<"] : sending don't change to = "<< recID << endl;
+
+    WaveShortMessage* wsm = prepareWSM("dont_change", beaconLengthBits, type_CCH, beaconPriority, recID, -1);
     sendWSM(wsm);
-}
+//    is_self_affected_by_ev = 1.0;
 
-void TraCIDemo11p::receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details) {
-    Enter_Method_Silent();
-    if (signalID == mobilityStateChangedSignal) {
-        handlePositionUpdate(obj);
-    }
-    else if (signalID == parkingStateChangedSignal) {
-        handleParkingUpdate(obj);
-    }
-}
-
-void TraCIDemo11p::handleParkingUpdate(cObject* obj) {
-    isParking = mobility->getParkingState();
-    if (sendWhileParking == false) {
-        if (isParking == true) {
-            (FindModule<BaseConnectionManager*>::findGlobalModule())->unregisterNic(this->getParentModule()->getSubmodule("nic"));
-        }
-        else {
-            Coord pos = mobility->getCurrentPosition();
-            (FindModule<BaseConnectionManager*>::findGlobalModule())->registerNic(this->getParentModule()->getSubmodule("nic"), (ChannelAccess*) this->getParentModule()->getSubmodule("nic")->getSubmodule("phy80211p"), &pos);
-        }
-    }
-}
-
-void TraCIDemo11p::handlePositionUpdate(cObject* obj) {
-    BaseWaveApplLayer::handlePositionUpdate(obj);
-
-    // stopped for for at least 10s?
-    if (mobility->getSpeed() < 1) {
-        if (simTime() - lastDroveAt >= 2) {
-            //findHost()->getDisplayString().updateWith("r=6,red");
-            //if (!sentMessage) sendMessage(mobility->getRoadId());
-        }
-    }
-    else {
-        lastDroveAt = simTime();
-    }
 }
 
 void TraCIDemo11p::sendWSM(WaveShortMessage* wsm) {
-    //this method has not beed edited by akkala
-    if (isParking && !sendWhileParking) return;
+    wsm->setSenderPos(mobility->getPositionAt(simTime()));
+    wsm->setSpeed(traciVehicle->getSpeed());
+    wsm->setSenderAffectedByEV(isAffectedByEV);
+    wsm->setIsSenderEV(isEV);
+    wsm->setLane(lane);
     sendDelayedDown(wsm,individualOffset);
+}
+
+void TraCIDemo11p::finish(){
+
+        recordScalar("is EV",isEV);
+        recordScalar("bpd", bpd);
+        recordScalar("isAffectedByEV", isAffectedByEV);
+
 }

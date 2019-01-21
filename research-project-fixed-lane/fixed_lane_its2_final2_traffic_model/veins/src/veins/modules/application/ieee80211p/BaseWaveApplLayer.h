@@ -73,8 +73,8 @@ class BaseWaveApplLayer : public BaseApplLayer {
 		virtual void sendWSM(WaveShortMessage* wsm);
 		virtual void onBeacon(WaveShortMessage* wsm) = 0;
 		virtual void onData(WaveShortMessage* wsm) = 0;
-        virtual void onWant_change(WaveShortMessage* wsm) = 0;
-        virtual void onDont_change(WaveShortMessage* wsm) = 0;
+        virtual void onWantChange(WaveShortMessage* wsm) = 0;
+        virtual void onDontChange(WaveShortMessage* wsm) = 0;
 
 		virtual void handlePositionUpdate(cObject* obj);
 
