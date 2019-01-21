@@ -68,7 +68,7 @@
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/gcc-debug/src/veins/base/connectionManager"/>
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples"/>
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins"/>
-<includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins/results"/>
+<includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins/results" removed="true"/>
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins/results/bpd" removed="true"/>
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins/results/bpd/20Jan" removed="true"/>
 <includePath path="/home/fyp-13/ITS3/its3GIthub/research-project-fixed-lane/fixed_lane_its2_final2_traffic_model/veins/examples/veins/first"/>

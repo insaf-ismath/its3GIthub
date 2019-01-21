@@ -25,7 +25,8 @@ simple TraCIDemo11p extends BaseWaveApplLayer
 {
     @class(TraCIDemo11p);
     @display("i=block/app2");
-    bool sendWhileParking  = default(false); //send messages when the car is parked
-	double bpdis = default(100);
+    bool sendWhileParking  		= default(false); //send messages when the car is parked
+	double bpdis 				= default(100);
+	double utilReCalcInterval 	= default(5);
     
 }
