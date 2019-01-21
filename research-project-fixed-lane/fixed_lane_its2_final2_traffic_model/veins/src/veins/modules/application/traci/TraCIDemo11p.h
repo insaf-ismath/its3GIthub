@@ -54,6 +54,7 @@ public:
 		AnnotationManager* annotations;
 
 		cMessage* changeLane;
+		cMessage* utilRecalcTimer;
 
 		static const simsignalwrap_t parkingStateChangedSignal;
 
@@ -70,19 +71,26 @@ public:
         // Suburban
 //        double max_speed_lane[2] = {22.2, 22.2};
 //         Urban
-        double max_speed_lane[2] = {11.11, 11.11};
 
-
-
-
-
-        double beaconningInterval = 0.909; //Beaconing frequency of VIP and other vehicles
+        std::list<int>neighbors;
+        double beaconInterval;
 
         bool changed    = false;
         bool dontChange = false;
 
         bool isBVSffectedByEV = 0.0;
-        bool isAffectedByEV     = 0;
+        bool isAffectedByEV   = 0;
+
+
+        double utilReCalcInterval;  //sec   //***
+        double utilFactor[2]; //   = {0.0,0.0};
+        double trRegion;     //    = 100; //0.01
+
+        double minSpeed[2]; //     = {22.2,22.2};
+        double cumSpeed[2] ;//     = {0.00,0.00};
+        int vehicleCounter[2];//   = {0,0};
+        double maxCarLengths;
+        double w[3];             //= {0.4, 0.4, 0.2};
 
 //        <vehicle arrivalLane="0" color="red" depart="300" departLane="0" id="vip" route="route0" type="CarVIP" />
 	public:
@@ -98,16 +106,19 @@ public:
         virtual void handleBeaconFixedLane(WaveShortMessage* wsm);
         virtual void handleBeaconBestLane(WaveShortMessage* wsm);
 
-
-
 		virtual void onData(WaveShortMessage* wsm);
+		virtual void handleDataFixedLane(WaveShortMessage* wsm);
+		virtual void handleDataBestLane(WaveShortMessage* wsm);
+
 		virtual void onWantChange(WaveShortMessage* wsm);
         virtual void onDontChange(WaveShortMessage* wsm);
 		virtual void sendWSM(WaveShortMessage* wsm);
         virtual void sendDontChange(int recID);
 
-
+        virtual double calculateUtility(int laneID);
+        virtual void clearUtilMemory();
         virtual void scheduleChangeLane();
+        virtual bool neighbourInList(int nID);
 };
 
 #endif

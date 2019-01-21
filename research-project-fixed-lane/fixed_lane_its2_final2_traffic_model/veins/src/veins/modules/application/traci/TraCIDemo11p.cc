@@ -44,17 +44,50 @@ void TraCIDemo11p::initialize(int stage) {
         ASSERT(annotations);
         findHost()->subscribe(parkingStateChangedSignal, this);
 
-        bpd = par("bpdis");
         traciVehicle->setSpeedMode(23);
 
-        lane = stoi(traciVehicle->getLaneId());
         isEV = strcmp(traciVehicle->nodeId.c_str(),"vip") == 0;
-
         if(isEV){
-            std::cout<<"Node["<<myId<<"] : isEV : lane = " << lane << endl;
-            std::cout<<"Node["<<myId<<"] : bpd = " << bpd << endl;
+            std::cout<<"Node["<<myId<<"] : isEV : lane = " << traciVehicle->getLaneId() << endl;
         }
-        changeLane = new cMessage("changeLane");
+        lane = stoi(traciVehicle->getLaneId());
+
+        changeLane      = new cMessage("changeLane");
+        beaconInterval  = par("beaconInterval").doubleValue();
+
+
+        switch(EVStrategyUsed){
+            case EV_BEST_LANE:
+                if(isEV){
+                    utilReCalcInterval  = par("utilReCalcInterval");
+                    maxCarLengths   = trRegion/URegion;
+                    trRegion        = 100; //0.01
+                    utilFactor[0]   = 0;//          = {0.0,0.0};utilFactor[0] = 0;
+                    utilFactor[1]   = 0;
+                    minSpeed[0]     = traciLane->getMaxSpeed();
+                    minSpeed[1]     = traciLane->getMaxSpeed();
+                    cumSpeed[0]     = 0;
+                    cumSpeed[1]     = 0;
+                    vehicleCounter[0] = 0;
+                    vehicleCounter[1] = 0;
+                    w[0] = 0.4;
+                    w[1] = 0.4;
+                    w[2] = 0.2;
+
+                    utilRecalcTimer     = new cMessage("utilRecalcTimer");
+                    scheduleAt(simTime() + utilReCalcInterval, utilRecalcTimer);
+                    std::cout<<"Node["<<myId<<"] : isEV : lane = " << lane << endl;
+                }
+                break;
+            case EV_FIXED_LANE:
+                bpd = par("bpdis");
+                if(isEV){
+                    std::cout<<"Node["<<myId<<"] : bpd = " << bpd << endl;
+                    std::cout<<"Node["<<myId<<"] : isEV : lane = " << traciVehicle->getLaneId() << endl;
+                }
+                break;
+        }
+
     }
 
 }
@@ -71,22 +104,12 @@ void TraCIDemo11p::handleSelfMsg(cMessage *msg)
     }
 }
 
-void TraCIDemo11p::onBeacon(WaveShortMessage* wsm) {
-    switch(EVStrategyUsed){
-        case EV_FIXED_LANE:
-            handleBeaconFixedLane(wsm);
-            break;
-        case EV_BEST_LANE:
-            handleBeaconBestLane(wsm);
-            break;
-    }
-}
-
 void TraCIDemo11p::handleSelfMsgFixedLane(cMessage *msg)
 {
     if(msg == sendBeaconEvt && isEV){
         WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
         sendWSM(wsm);
+        scheduleAt(simTime() + beaconInterval, sendBeaconEvt);
     }else if(msg == changeLane){
         EV <<  "Change Lane called" << endl ;
         if(!dontChange){
@@ -108,7 +131,72 @@ void TraCIDemo11p::handleSelfMsgFixedLane(cMessage *msg)
 
 void TraCIDemo11p::handleSelfMsgBestLane(cMessage *msg)
 {
+    if(msg == sendBeaconEvt && isEV){
+        std::cout<< "EV : Beacon sending: "<<endl;
+        WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+        sendWSM(wsm);
+        scheduleAt(simTime() + beaconInterval, sendBeaconEvt);
 
+    }else if(msg == utilRecalcTimer){
+        if(!changeLane->isScheduled()){
+            utilFactor[0] = calculateUtility(0);
+            utilFactor[1] = calculateUtility(1);
+
+            if(utilFactor[abs(lane-1)] > utilFactor[lane]  ){
+                WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+                sendWSM(wsm);
+                scheduleAt(simTime() + 2, changeLane);
+            }
+        }
+        clearUtilMemory();
+        scheduleAt(simTime() + utilReCalcInterval, utilRecalcTimer);
+    }else if(msg == changeLane){
+        EV <<  "Change Lane called" << endl ;
+        if(!dontChange){
+            if(traciVehicle->getLaneIndex() == 0){
+                traciVehicle->changeLane(1,50000);
+                changed = true;
+                lane = 1;
+            }else if(traciVehicle->getLaneIndex() == 1){
+                traciVehicle->changeLane(0,50000);
+                changed = false;
+                lane = 0;
+            }
+            clearUtilMemory();
+            std::cout<<"EV : lane change : newLane = " << lane << endl;
+        }else{
+            scheduleChangeLane();
+        }
+    }
+
+}
+
+double TraCIDemo11p::calculateUtility(int laneID){
+
+    double maxSpeed = traciLane->getMaxSpeed(); // = max_speed_lane[lane_id];   //traciLane->getMaxSpeed()
+    int vCount      = vehicleCounter[laneID];
+    double avgSpeed;
+    double freeSpace = maxCarLengths * utilReCalcInterval / beaconInterval;
+
+    if(vCount == 0) avgSpeed = maxSpeed;
+    else            avgSpeed = cumSpeed[laneID]/vehicleCounter[laneID];
+
+    double NL = minSpeed[laneID]/maxSpeed;
+    double NA = avgSpeed/maxSpeed;
+    double NF = (freeSpace - vehicleCounter[laneID]) / freeSpace;
+
+    return w[0]*NL+ w[1]*NA + w[2]*NF;
+
+}
+void TraCIDemo11p::onBeacon(WaveShortMessage* wsm) {
+    switch(EVStrategyUsed){
+        case EV_FIXED_LANE:
+            handleBeaconFixedLane(wsm);
+            break;
+        case EV_BEST_LANE:
+            handleBeaconBestLane(wsm);
+            break;
+    }
 }
 
 void TraCIDemo11p::handleBeaconFixedLane(WaveShortMessage* wsm)
@@ -125,20 +213,10 @@ void TraCIDemo11p::handleBeaconFixedLane(WaveShortMessage* wsm)
     }
 }
 
-void TraCIDemo11p::scheduleChangeLane(){
-    if(!changeLane->isScheduled()){
-//        std::cout<<"Node["<<myId<<"] : change scheduled" << endl;
-        dontChange = false;
-        WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
-        isAffectedByEV = 1.0;
-        sendWSM(wsm);
-        scheduleAt(simTime() + 2, changeLane);
-    }
-}
-
 void TraCIDemo11p::handleBeaconBestLane(WaveShortMessage* wsm)
 {
-
+    WaveShortMessage* wsmNew = prepareWSM("data", beaconLengthBits, type_CCH, beaconPriority, wsm->getSenderAddress(), -1);
+    sendWSM(wsmNew);
 }
 
 void TraCIDemo11p::onDontChange(WaveShortMessage* wsm) {
@@ -173,7 +251,7 @@ void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
         }else{
             if(distance2Sender < FPURegion && senderSpeed > selfSpeed) {
                 sendDontChange(senderID);
-                traciVehicle->slowDown(wsm->getSpeed()*1.1, 100);
+                traciVehicle->slowDown(wsm->getSpeed()*0.9, 1000);
             }
 
 //                traciVehicle->slowDown(senderSpeed,50);
@@ -182,6 +260,26 @@ void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
 }
 
 void TraCIDemo11p::onData(WaveShortMessage* wsm) {
+    switch(EVStrategyUsed){
+        case EV_FIXED_LANE:
+            handleDataFixedLane(wsm);
+            break;
+        case EV_BEST_LANE:
+            handleDataBestLane(wsm);
+            break;
+    }
+}
+void TraCIDemo11p::handleDataFixedLane(WaveShortMessage* wsm) {}
+
+void TraCIDemo11p::handleDataBestLane(WaveShortMessage* wsm) {
+    if(isEV){
+        // check for existance of neighbor
+        int senderLane           = wsm->getLane();
+        vehicleCounter[senderLane]  += 1;
+        cumSpeed[senderLane]        += wsm->getSpeed();
+
+        if (minSpeed[senderLane] > wsm->getSpeed()) minSpeed[senderLane] = wsm->getSpeed();
+    }
 
 }
 
@@ -203,10 +301,50 @@ void TraCIDemo11p::sendWSM(WaveShortMessage* wsm) {
     sendDelayedDown(wsm,individualOffset);
 }
 
-void TraCIDemo11p::finish(){
+void TraCIDemo11p::scheduleChangeLane(){
+    if(!changeLane->isScheduled()){
+//        std::cout<<"Node["<<myId<<"] : change scheduled" << endl;
+        dontChange = false;
+        WaveShortMessage* wsm = prepareWSM("want_change", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
+        isAffectedByEV = 1.0;
+        sendWSM(wsm);
+        scheduleAt(simTime() + 2, changeLane);
+    }
+}
 
-        recordScalar("is EV",isEV);
-        recordScalar("bpd", bpd);
-        recordScalar("isAffectedByEV", isAffectedByEV);
+void TraCIDemo11p::clearUtilMemory()
+{
+    utilFactor[0]   = 0;//          = {0.0,0.0};utilFactor[0] = 0;
+    utilFactor[1]   = 0;
+    minSpeed[0]     = traciLane->getMaxSpeed();
+    minSpeed[1]     = traciLane->getMaxSpeed();
+    cumSpeed[0]     = 0;
+    cumSpeed[1]     = 0;
+    vehicleCounter[0] = 0;
+    vehicleCounter[1] = 0;
+
+    // pop neighbor list
+
+}
+
+bool TraCIDemo11p::neighbourInList(int nID)
+{
+    for(auto i : neighbors){
+        if(i == nID) return true;
+    }
+    return false;
+}
+
+void TraCIDemo11p::finish(){
+    recordScalar("is EV",isEV);
+    recordScalar("isAffectedByEV", isAffectedByEV);
+    switch(EVStrategyUsed){
+        case EV_FIXED_LANE:
+            recordScalar("bpd", bpd);
+            break;
+        case EV_BEST_LANE:
+            break;
+    }
+
 
 }
