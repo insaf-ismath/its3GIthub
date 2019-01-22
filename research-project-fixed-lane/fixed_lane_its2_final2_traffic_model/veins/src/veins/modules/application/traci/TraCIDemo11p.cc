@@ -223,7 +223,42 @@ void TraCIDemo11p::onDontChange(WaveShortMessage* wsm) {
     EV << "Dont change received \n";
     if(myId == wsm->getRecipientAddress()) dontChange = true;
 }
-
+// Lane Change Algo with more lane changes (LCA V2)
+//void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
+//
+//    int senderID        = wsm->getSenderAddress();
+//    double senderSpeed  = wsm->getSpeed();
+//    double selfSpeed    = traciVehicle->getSpeed();
+//    double RPURegion    = selfSpeed * 2;
+//    double FPURegion    = senderSpeed * 2;
+//    bool isSenderSameLane   = mobility->getPositionAt(simTime()).y != wsm->getSenderPos().y;
+//    bool isSenderAhead      = mobility->getPositionAt(simTime()).x < wsm->getSenderPos().x;
+//    double distance2Sender  = abs(wsm->getSenderPos().x - mobility->getPositionAt(simTime()).x);
+//    speed_margine = traciVehicle->getSpeed() - pow(traciVehicle->getSpeed()*traciVehicle->getSpeed() - 2*2.9*5.4 , 0.5);
+//
+//    if(isSenderSameLane){
+//if(distance2Sender < URegion) {
+//            sendDontChange(senderID);
+//            traciVehicle->slowDown(traciVehicle->getSpeed() * 0.7, 100);
+////            traciVehicle->slowDown(senderSpeed,50);
+//        }
+//        else if(isSenderAhead){
+//            if(distance2Sender < RPURegion && senderSpeed < selfSpeed){
+////                sendDontChange(senderID);
+//                traciVehicle->slowDown(wsm->getSpeed()*0.9, 100);
+////              traciVehicle->slowDown(senderSpeed,50);
+//            }
+//        }else{
+//            if(distance2Sender < FPURegion && senderSpeed > selfSpeed) {
+//                sendDontChange(senderID);
+//                traciVehicle->slowDown(wsm->getSpeed()*0.9, 1000);
+//            }
+//
+////                traciVehicle->slowDown(senderSpeed,50);
+//        }
+//    }
+//}
+// Lane Change Algo with fewer lane changes (LCA V1)
 void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
 
     int senderID        = wsm->getSenderAddress();
@@ -239,13 +274,13 @@ void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
     if(isSenderSameLane){
         if(distance2Sender < URegion) {
             sendDontChange(senderID);
-            traciVehicle->slowDown(traciVehicle->getSpeed() * 0.7, 100);
+            traciVehicle->slowDown(traciVehicle->getSpeed() * 0.7, 1000);
 //            traciVehicle->slowDown(senderSpeed,50);
         }
         else if(isSenderAhead){
             if(distance2Sender < RPURegion && senderSpeed < selfSpeed){
-//                sendDontChange(senderID);
-                traciVehicle->slowDown(wsm->getSpeed()*0.9, 100);
+                sendDontChange(senderID);
+                traciVehicle->slowDown(wsm->getSpeed()*0.9, 1000);
 //                traciVehicle->slowDown(senderSpeed,50);
             }
         }else{
@@ -253,7 +288,6 @@ void TraCIDemo11p::onWantChange(WaveShortMessage* wsm) {
                 sendDontChange(senderID);
                 traciVehicle->slowDown(wsm->getSpeed()*0.9, 1000);
             }
-
 //                traciVehicle->slowDown(senderSpeed,50);
         }
     }

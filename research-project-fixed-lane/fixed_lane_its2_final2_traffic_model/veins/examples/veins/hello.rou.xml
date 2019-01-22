@@ -1,7 +1,7 @@
 <routes>
 
-<vType accel="2.9" decel="7.5" id="NV" color="green" length="4.3" maxSpeed="28" minGap="0" speedFactor="1" speedDev="0.1" sigma="0.0" tau="2" />
-<vType accel="2.9" decel="7.5" id="EV" color="red" length="6.5" maxSpeed="28" minGap="0" sigma="0.0" tau="2" />
+<vType accel="2.9" decel="7.5" id="NV" length="4.3" maxSpeed="28" speedFactor="1.0" speedDev="0.1" minGap="0" sigma="0.0" tau="2" color="green"/>
+<vType accel="2.9" decel="7.5" id="EV" length="6.5" maxSpeed="28" speedFactor="1.0" speedDev="0.0" minGap="0" sigma="0.0" tau="2" color="red"/>
 
 <route edges="1to2" id="route0" />
 
