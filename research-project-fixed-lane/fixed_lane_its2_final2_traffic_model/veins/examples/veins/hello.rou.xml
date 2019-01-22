@@ -8,6 +8,6 @@
 <flow id="flow0" type="NV" departLane="0" route="route0" begin="0" end="500" probability="0.5" />
 <flow id="flow1" type="NV" departLane="1" route="route0" begin="0" end="500" probability="0.5" />
 
-<vehicle arrivalLane="0" color="red" depart="250" departLane="0" id="vip" route="route0" type="EV" />
+<vehicle arrivalLane="0" color="red" depart="50" departLane="0" id="vip" route="route0" type="EV" />
 
 </routes>

@@ -47,10 +47,8 @@ void TraCIDemo11p::initialize(int stage) {
         traciVehicle->setSpeedMode(23);
 
         isEV = strcmp(traciVehicle->nodeId.c_str(),"vip") == 0;
-        if(isEV){
-            std::cout<<"Node["<<myId<<"] : isEV : lane = " << traciVehicle->getLaneId() << endl;
-        }
         lane = stoi(traciVehicle->getLaneId());
+
 
         changeLane      = new cMessage("changeLane");
         beaconInterval  = par("beaconInterval").doubleValue();
@@ -60,12 +58,14 @@ void TraCIDemo11p::initialize(int stage) {
             case EV_BEST_LANE:
                 if(isEV){
                     utilReCalcInterval  = par("utilReCalcInterval");
-                    maxCarLengths   = trRegion/URegion;
                     trRegion        = 100; //0.01
+                    maxCarLengths   = trRegion/URegion;
                     utilFactor[0]   = 0;//          = {0.0,0.0};utilFactor[0] = 0;
                     utilFactor[1]   = 0;
-                    minSpeed[0]     = traciLane->getMaxSpeed();
-                    minSpeed[1]     = traciLane->getMaxSpeed();
+
+                    minSpeed[0]     = speedLimit;
+                    minSpeed[1]     = speedLimit;
+
                     cumSpeed[0]     = 0;
                     cumSpeed[1]     = 0;
                     vehicleCounter[0] = 0;
@@ -74,7 +74,8 @@ void TraCIDemo11p::initialize(int stage) {
                     w[1] = 0.4;
                     w[2] = 0.2;
 
-                    utilRecalcTimer     = new cMessage("utilRecalcTimer");
+
+                    utilRecalcTimer = new cMessage("utilRecalcTimer");
                     scheduleAt(simTime() + utilReCalcInterval, utilRecalcTimer);
                     std::cout<<"Node["<<myId<<"] : isEV : lane = " << lane << endl;
                 }
@@ -90,10 +91,13 @@ void TraCIDemo11p::initialize(int stage) {
 
     }
 
+
 }
 
 void TraCIDemo11p::handleSelfMsg(cMessage *msg)
 {
+    if(isEV) std::cout<<"Node["<<myId<<"] : isEV : handleSelfMsg " << endl;
+
     switch(EVStrategyUsed){
         case EV_FIXED_LANE:
             handleSelfMsgFixedLane(msg);
@@ -131,6 +135,8 @@ void TraCIDemo11p::handleSelfMsgFixedLane(cMessage *msg)
 
 void TraCIDemo11p::handleSelfMsgBestLane(cMessage *msg)
 {
+    if(isEV) std::cout<<"Node["<<myId<<"] : isEV : handleSelfMsgBest " << endl;
+
     if(msg == sendBeaconEvt && isEV){
         std::cout<< "EV : Beacon sending: "<<endl;
         WaveShortMessage* wsm = prepareWSM("beacon", beaconLengthBits, type_CCH, beaconPriority, 0, -1);
@@ -153,11 +159,11 @@ void TraCIDemo11p::handleSelfMsgBestLane(cMessage *msg)
     }else if(msg == changeLane){
         EV <<  "Change Lane called" << endl ;
         if(!dontChange){
-            if(traciVehicle->getLaneIndex() == 0){
+            if(lane == 0){
                 traciVehicle->changeLane(1,50000);
                 changed = true;
                 lane = 1;
-            }else if(traciVehicle->getLaneIndex() == 1){
+            }else if(lane == 1){
                 traciVehicle->changeLane(0,50000);
                 changed = false;
                 lane = 0;
@@ -172,8 +178,9 @@ void TraCIDemo11p::handleSelfMsgBestLane(cMessage *msg)
 }
 
 double TraCIDemo11p::calculateUtility(int laneID){
+    if(isEV) std::cout<<"Node["<<myId<<"] : isEV : calculateUtility " << endl;
 
-    double maxSpeed = traciLane->getMaxSpeed(); // = max_speed_lane[lane_id];   //traciLane->getMaxSpeed()
+    double maxSpeed = speedLimit; // = max_speed_lane[lane_id];   //traciLane->getMaxSpeed()
     int vCount      = vehicleCounter[laneID];
     double avgSpeed;
     double freeSpace = maxCarLengths * utilReCalcInterval / beaconInterval;

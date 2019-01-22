@@ -58,7 +58,7 @@ public:
 
 		static const simsignalwrap_t parkingStateChangedSignal;
 
-		int EVStrategyUsed  = EV_FIXED_LANE;
+		int EVStrategyUsed  = EV_BEST_LANE;
         bool isEV;
         int lane;
         double bpd;
