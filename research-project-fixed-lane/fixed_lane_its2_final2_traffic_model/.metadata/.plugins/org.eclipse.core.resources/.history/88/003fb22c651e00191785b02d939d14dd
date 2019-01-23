@@ -1,0 +1,147 @@
+[General]
+#num-rngs=5
+cmdenv-config-name = General
+cmdenv-express-mode = true
+cmdenv-autoflush = true
+cmdenv-status-frequency = 10000000s
+#
+#tkenv-default-config = debug
+output-scalar-file = ${resultdir}/${configname}-${runnumber}.sca
+qtenv-default-config = General
+repeat =100 
+#result-dir = results/BLAUtilityTimer/22Jan/
+#result-dir = results/BLA/SpeedFactor/10Percent/22Jan/
+result-dir = results/BLA/LCAV1_20Percent/22Jan/100/
+#result-dir = results/bpd/22Jan_LCAV1/
+seed-set = ${runnumber} 
+tkenv-default-run = 2
+ned-path = .
+
+network = RSUExampleScenario
+
+##########################################################
+#            Simulation parameters                       #
+##########################################################
+debug-on-errors = true
+print-undisposed = false
+
+
+**.scalar-recording = true
+**.statistic-recording = false
+**.vector-recording = false
+
+**.debug = false
+**.coreDebug = false
+
+*.playgroundSizeX =  11000m #${11000m, 11000m, 11000m, 11000m}
+*.playgroundSizeY = 11000m
+*.playgroundSizeZ = 50m
+
+
+##########################################################
+# Annotation parameters                                  #
+##########################################################
+*.annotations.draw = false
+
+##########################################################
+# Obstacle parameters                                    #
+##########################################################
+#*.obstacles.debug = false
+#*.obstacles.obstacles = xmldoc("config.xml", "//AnalogueModel[@type='SimpleObstacleShadowing']/obstacles")
+
+##########################################################
+#            WorldUtility parameters                     #
+##########################################################
+*.world.useTorus = false
+*.world.use2D = false
+
+##########################################################
+#            TraCIScenarioManager parameters             #
+##########################################################
+*.manager.updateInterval = 0.1s
+*.manager.host = "localhost"
+*.manager.port = 9999
+*.manager.moduleType = "org.car2x.veins.nodes.Car"
+*.manager.moduleName = "node"
+*.manager.moduleDisplayString = ""
+*.manager.autoShutdown = true
+*.manager.margin = 25
+*.manager.launchConfig = xmldoc("hello.launchd.xml")
+
+##########################################################
+#                       RSU SETTINGS                     #
+#                                                        #
+#                                                        #
+##########################################################
+
+
+
+##########################################################
+#            11p specific parameters                     #
+#                                                        #
+#                    NIC-Settings                        #
+##########################################################
+*.connectionManager.pMax = 1mW
+*.connectionManager.sat = -89dBm
+*.connectionManager.alpha = 2.0
+*.connectionManager.carrierFrequency = 5.890e9 Hz
+*.connectionManager.sendDirect = true
+
+*.**.nic.mac1609_4.useServiceChannel = false
+
+*.**.nic.mac1609_4.txPower = 20mW
+*.**.nic.mac1609_4.bitrate = 3Mbps
+
+*.**.nic.phy80211p.sensitivity = -89dBm
+*.**.nic.phy80211p.useThermalNoise = true
+*.**.nic.phy80211p.thermalNoise = -110dBm
+*.**.nic.phy80211p.decider = xmldoc("config.xml")
+*.**.nic.phy80211p.analogueModels = xmldoc("config.xml")
+*.**.nic.phy80211p.usePropagationDelay = true
+
+##########################################################
+#                    WaveAppLayer                        #
+##########################################################
+#*.node[*].appl.bpdis = ${10,20,30,40,50,60,70,80,90,100}
+*.node[*].appl.bpdis = 60
+*.node[*].appl.speedLimit = 30.56
+*.node[*].appl.utilReCalcInterval = 10
+#*.node[*].appl.utilReCalcInterval = 5
+*.node[*].applType = "TraCIDemo11p"
+*.node[*].appl.debug = false
+*.node[*].appl.headerLength = 256 bit
+*.node[*].appl.sendBeacons = true
+*.node[*].appl.dataOnSch = false
+*.node[*].appl.sendData = true
+*.node[*].appl.beaconInterval = 0.9s
+*.node[*].appl.beaconPriority = 3
+*.node[*].appl.dataPriority = 2
+*.node[*].appl.maxOffset = 0.005s
+
+##########################################################
+#                      Mobility                          #
+##########################################################
+*.node[*].veinsmobilityType = "org.car2x.veins.modules.mobility.traci.TraCIMobility"
+*.node[*].mobilityType = "TraCIMobility"
+*.node[*].mobilityType.debug = true
+*.node[*].veinsmobilityType.debug = true
+*.node[*].veinsmobility.x = 0
+*.node[*].veinsmobility.y = 0
+*.node[*].veinsmobility.z = 1.895
+*.node[0].veinsmobility.accidentCount =1
+*.node[0].veinsmobility.accidentStart = 30s
+*.node[0].veinsmobility.accidentDuration = 140s
+
+
+[Config nodebug]
+description = "default settings"
+**.debug = false
+**.coreDebug = false
+*.annotations.draw = false
+
+[Config debug]
+description = "(very slow!) draw and print additional debug information"
+**.debug = true
+**.coreDebug = true
+*.annotations.draw = true
+

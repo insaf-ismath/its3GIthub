@@ -63,7 +63,7 @@ public:
         int lane;
         double bpd;
         double URegion      = (4.3 + 6.5)/2; //Unsafe region = (length of a normal vehicle + length of an ambulance)/2
-        double speedLimit   = 22.2;  // maximum speed of a normal vehicle
+        double speedLimit;  // maximum speed of a normal vehicle
         double vipSpeed     = 22.2;    // maximum speed of VIP
 
         // Highway
